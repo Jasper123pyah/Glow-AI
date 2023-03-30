@@ -1,33 +1,47 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import axios from 'axios';
 import annyang from 'annyang';
 import './App.css';
-import CircleLoader from "react-spinner";
-
+import {CircleLoader} from "react-spinners";
 
 const App = () => {
+    const [images, setImages] = useState([]);
     const [image, setImage] = useState(null);
-    const [listening, setListening] = useState(false);
-    const [loading, setLoading] = useState(true);
+    const [displayText, setDisplayText] = useState("Say 'Hello' to start!");
+    const [loading, setLoading] = useState(false);
     const DALL_E_API_KEY = import.meta.env.VITE_API_KEY;
 
-    const handleListen = () => {
-        if (annyang) {
-            setListening(true);
-            annyang.start();
-        } else {
-            console.log('annyang not supported');
-        }
-    };
+    if (annyang) {
+        const alwaysOnCommands = {
+            'listening': () => {
+                console.log('listening...');
+            }
+        };
 
+        const helloCommand = {
+            'hello': () => {
+                annyang.removeCommands(alwaysOnCommands);
+                setDisplayText('Say "Generate Image" to start!');
+                console.log(displayText)
+                annyang.addCommands({ 'generate image *prompt': handleImageRequest });
+            }
+        };
+
+        annyang.addCommands(alwaysOnCommands);
+        annyang.addCommands(helloCommand);
+        annyang.start();
+    } else {
+        console.log('annyang not supported');
+    }
 
     const handleImageRequest = (prompt) => {
-        if(!loading) {
+        console.log(prompt);
+        if (!loading) {
             setLoading(true);
             axios.post('https://api.openai.com/v1/images/generations', {
                 "model": "image-alpha-001",
                 "prompt": prompt,
-                "num_images": 1,
+                "num_images": 4,
                 "size": "1024x1024",
                 "response_format": "url"
             }, {
@@ -47,24 +61,16 @@ const App = () => {
         }
     };
 
-    annyang.addCallback('result', (result) => {
-        console.log(result)
-        setListening(false);
-        annyang.abort();
-        handleImageRequest(result[0]);
-        pause(1000);
-    });
+    if (loading)
+        return <CircleLoader size={600} color="#36d7b7" />;
 
-
-    return <CircleLoader size={100} color={'purple'} />
 
     return (
-        <div>
+        <div className={'container'}>
             {
-                image ? <img src={image} alt={'image'} /> : <div className={'app'}>
+                image ? <img className={'image'} src={image} alt={'image'}/> : <div className={'app'}>
                     <div className={'listener'}>
-                        <button onClick={handleListen}>Start Listening</button>
-                        {listening && <div className={'ball'}/>}
+                        <p>{displayText}</p>
                     </div>
                 </div>
             }
