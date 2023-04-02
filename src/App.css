@@ -44,3 +44,18 @@
     display: flex;
     justify-content: space-between;
 }
+
+.result {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.result h2 {
+    border: #b9b9b9 1px solid;
+    padding: 20px;
+    border-radius: 16px;
+    width: 40%;
+    margin-bottom: 200px;
+    text-align: center;
+}

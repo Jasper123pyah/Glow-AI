@@ -25,35 +25,35 @@ const App = () => {
 
   const steps = {
     0: {
-      title: 'Choose a setting',
+      title: 'Where are we?',
       options: options.settings,
       multipleChoice: false,
       object: setting,
       setObject: setSetting
     },
     1: {
-      title: 'Choose your actors',
+      title: 'Who are there?',
       options: options.actors,
       multipleChoice: true,
       object: actors,
       setObject: setActors
     },
     2: {
-      title: 'Choose your action',
+      title: 'What are they doing?',
       options: options.actions,
       multipleChoice: false,
       object: action,
       setObject: setAction
     },
     3: {
-      title: 'Choose your objects',
+      title: 'What objects are there with them?',
       options: options.objects,
       multipleChoice: true,
       object: objects,
       setObject: setObjects
     },
     4: {
-      title: 'Choose your styles',
+      title: 'In what styles?',
       options: options.styles,
       multipleChoice: true,
       object: styles,
@@ -61,7 +61,14 @@ const App = () => {
     }
   }
 
-  const handleImageRequest = () => {
+  function timeout(delay) {
+    return new Promise( res => setTimeout(res, delay) );
+  }
+
+  const handleImageRequest = async() => {
+    setLoading(true);
+    await timeout(1000);
+
     const promptMultiple = (array) => {
       let prompt = '';
       array.forEach((element, index) => {
@@ -75,6 +82,8 @@ const App = () => {
     }
     const prompt = `${promptMultiple(actors)} ${action} ${setting} with ${promptMultiple(objects)} in the styles of ${promptMultiple(styles)}.`.toLowerCase();
     setError(null);
+
+    setLoading(false);
 
     console.log(prompt)
     setPrompt(prompt);
@@ -124,15 +133,24 @@ const App = () => {
   }
 
   if (loading)
-    return <CircleLoader size={400} color="#36d7b7"/>;
+    return <div className={'container'}>
+      <CircleLoader size={400} color="#36d7b7"/>
+    </div>
 
 
   return (
     <div className={'container'}>
       {
         // image ? <img className={'image'} src={image} alt={'image'}/> :
-        prompt ? <div>
-            <h2>{prompt}</h2>
+        prompt ? <div className={'result'}>
+            <h2>
+              <div>
+                This is the picture on the screen:
+              </div>
+              <br/>
+              {prompt}
+            </h2>
+            <h1>Look up!</h1>
             <button onClick={handleReset}>
               Reset
             </button>
