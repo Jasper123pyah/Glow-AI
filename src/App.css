@@ -50,12 +50,13 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    GAP:
 }
 .result h2 {
     border: #b9b9b9 1px solid;
     padding: 20px;
     border-radius: 16px;
     width: 40%;
-    margin-bottom: 200px;
+    margin-bottom: 100px;
     text-align: center;
 }

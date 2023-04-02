@@ -154,6 +154,19 @@ const App = () => {
             <button onClick={handleReset}>
               Reset
             </button>
+          <br/>
+          <div>
+            Ways to integrate the beat:
+            <ul>
+              <li>
+                Add something static to the prompt for the image. (prompt += While wearing headphones and listening to music.)
+              </li>
+              <li>
+                Add an extra option in the selection process for the led lines. (Add a selection for the beat: slow, medium, fast, ripple, random, etc.)
+              </li>
+            </ul>
+          </div>
+
         </div> :
           <div className={'app'}>
             <div className={'selection'}>
