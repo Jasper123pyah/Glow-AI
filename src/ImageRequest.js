@@ -36,9 +36,7 @@ export const handleImageRequest = async (prompt, image) => {
         width: 512,
         height: 512
     }
-    axios.post('http://192.168.137.33:7860/sdapi/v1/txt2img', json).then((response) => {
-        console.log(response.data)
-        return response.data.images[0];
-    });
+    const response = await axios.post('http://192.168.137.33:7860/sdapi/v1/txt2img', json);
+    return response.data.images[0];
 }
 

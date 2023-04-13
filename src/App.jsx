@@ -15,7 +15,7 @@ const App = () => {
 
     // State for each selection
     const [setting, setSetting] = useState();
-    const [actor, setactor] = useState();
+    const [actor, setActor] = useState();
     const [action, setAction] = useState();
     const [styles, setStyles] = useState([]);
     const [objects, setObjects] = useState([]);
@@ -62,27 +62,25 @@ const App = () => {
         }
     }
 
-
-    const handleContinue = () => {
+    const handleContinue = async () => {
         if (step === 5) {
             setLoading(true);
-            getPrompt(actor, action, setting, objects, styles, faceImage).then((prompt) => {
-                handleImageRequest(prompt, faceImage).then((image) => {
-                    setImage(image);
-                    setLoading(false);
-                });
-            });
+            const prompt = await getPrompt(actor, action, setting, objects, styles, faceImage);
+            const image = await handleImageRequest(prompt, faceImage);
+            setImage(image);
+            setLoading(false);
         } else {
             setStep(step + 1);
         }
     }
+
     const handleBack = () => {
         setStep(step - 1);
     }
 
     const handleReset = () => {
         setSetting(null);
-        setactor([]);
+        setActor(null);
         setAction(null);
         setStyles([]);
         setObjects([]);
