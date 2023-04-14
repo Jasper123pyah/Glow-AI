@@ -21,7 +21,7 @@ const CameraStep = ({ onCapture }) => {
     };
 
     const startCountdown = async () => {
-        for (let i = 3; i >= 1; i--) {
+        for (let i = 1; i >= 1; i--) {
             setCountdown(i);
             await new Promise(resolve => setTimeout(resolve, 1000));
         }

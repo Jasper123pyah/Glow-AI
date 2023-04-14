@@ -20,50 +20,50 @@ const App = () => {
     const [styles, setStyles] = useState([]);
     const [objects, setObjects] = useState([]);
 
-    const steps = {
-        0: {
+    const steps = [
+        {
             title: 'Take a picture of your face',
             action: 'capture'
         },
-        1: {
+        {
             title: 'Where are you?',
             options: options.settings,
             multipleChoice: false,
             object: setting,
             setObject: setSetting
         },
-        2: {
+        {
             title: 'What are you?',
             options: options.actors,
             multipleChoice: false,
             object: actor,
-            setObject: setactor
+            setObject: setActor
         },
-        3: {
-            title: 'What are you doing?',
-            options: options.actions,
-            multipleChoice: false,
-            object: action,
-            setObject: setAction
-        },
-        4: {
-            title: 'What objects are there with you?',
-            options: options.objects,
-            multipleChoice: true,
-            object: objects,
-            setObject: setObjects
-        },
-        5: {
+        // {
+        //     title: 'What are you doing?',
+        //     options: options.actions,
+        //     multipleChoice: false,
+        //     object: action,
+        //     setObject: setAction
+        // },
+        // {
+        //     title: 'What objects are there with you?',
+        //     options: options.objects,
+        //     multipleChoice: true,
+        //     object: objects,
+        //     setObject: setObjects
+        // },
+        {
             title: 'In what style?',
             options: options.styles,
-            multipleChoice: true,
+            multipleChoice: false,
             object: styles,
             setObject: setStyles
         }
-    }
+    ]
 
     const handleContinue = async () => {
-        if (step === 5) {
+        if (step === steps.length - 1) {
             setLoading(true);
             const prompt = await getPrompt(actor, action, setting, objects, styles, faceImage);
             const image = await handleImageRequest(prompt, faceImage);
@@ -84,23 +84,21 @@ const App = () => {
         setAction(null);
         setStyles([]);
         setObjects([]);
+        setImage(null);
         setStep(0);
     }
 
     if (loading) return <div className={'container'}>
-            <CircleLoader size={400} color="#36d7b7"/>
-        </div>
+        <CircleLoader size={400} color="#36d7b7"/>
+    </div>
 
 
     return (
         <div className={'container'}>
             {
                 image ? <div className={'result'}>
-                    <h2>
-                        <br/>
-                        {<img className={'image'} src={image} alt={'image'}/>}
-                    </h2>
-                    <h1>Look up!</h1>
+                    <br/>
+                    {<img className={'image'} src={image} alt={'image'}/>}
                     <button onClick={handleReset}>
                         Reset
                     </button>
