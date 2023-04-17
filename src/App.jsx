@@ -2,8 +2,10 @@ import React, {useState} from 'react';
 import './App.css';
 import {CircleLoader} from "react-spinners";
 import options from './options.json';
-import {getPrompt, handleImageRequest} from "./ImageRequest.js";
-import CameraStep from "./CameraStep.jsx";
+import {getPrompt, handleImageRequest} from "./components/ImageRequest.js";
+import CameraStep from "./components/CameraStep.jsx";
+import io from 'socket.io-client';
+const socket = io('http://localhost:3001');
 
 const App = () => {
 
@@ -68,6 +70,7 @@ const App = () => {
             const prompt = await getPrompt(actor, action, setting, objects, styles, faceImage);
             const image = await handleImageRequest(prompt, faceImage);
             setImage(image);
+            socket.emit('newImage', image);
             setLoading(false);
         } else {
             setStep(step + 1);
