@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import io from 'socket.io-client';
 
 const ImageDisplay = () => {
-    const socket = io('http://localhost:3001');
+    const socket = io('http://localhost:5173');
     const [image, setImage] = useState(null);
 
     useEffect(() => {
@@ -20,3 +20,5 @@ const ImageDisplay = () => {
         </div>
     );
 };
+
+export default ImageDisplay;
