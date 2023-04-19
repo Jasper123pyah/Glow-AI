@@ -21,7 +21,7 @@ const CameraStep = ({ onCapture }) => {
     };
 
     const startCountdown = async () => {
-        for (let i = 1; i >= 1; i--) {
+        for (let i = 3; i >= 1; i--) {
             setCountdown(i);
             await new Promise(resolve => setTimeout(resolve, 1000));
         }
@@ -31,7 +31,7 @@ const CameraStep = ({ onCapture }) => {
 
     return (
         <div className={'camera-container'}>
-            <video ref={videoRef} autoPlay></video>
+            <video className={'camera-video'} ref={videoRef} autoPlay></video>
             <button onClick={startCountdown}>Capture</button>
             <div className="countdown">{countdown}</div>
         </div>

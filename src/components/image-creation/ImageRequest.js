@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { createCanvas, loadImage} from "canvas";
 
 function timeout(delay) {
     return new Promise(res => setTimeout(res, delay));
@@ -19,25 +20,39 @@ export const getPrompt = async (actor, action, setting, objects, style) => {
         return prompt;
     }
 
-    //with ${promptMultiple(objects)}
     const prompt = `${actor} ((${setting})) ${style}.`.toLowerCase()
     return prompt;
 
 };
 
+async function rotateImage(base64Image) {
+    const canvas = createCanvas();
+    const ctx = canvas.getContext('2d');
+    const img = await loadImage(base64Image);
+    canvas.width = img.height;
+    canvas.height = img.width;
+    ctx.translate(canvas.width / 2, canvas.height / 2);
+    ctx.rotate(90 * Math.PI / 180);
+    ctx.drawImage(img, -img.width / 2, -img.height / 2);
+    const rotatedImage = canvas.toDataURL('image/png');
+    return rotatedImage;
+}
+
 export const handleImageRequest = async (prompt, image) => {
+    image =  await rotateImage(image);
+
     const json = {
         init_images: [
             image
         ],
         prompt: prompt,
-        negative_prompt: 'nude',
+        negative_prompt: 'hitler',
         steps: 20,
-        cfg_scale: 7,
+        cfg_scale: 5,
         sampler: 'Euler',
         sampler_name: 'Euler',
-        width: 512,
-        height: 512,
+        width: 378,
+        height: 564,
         denoising_strength: 0.4
     };
     const ip = '192.168.212.76'

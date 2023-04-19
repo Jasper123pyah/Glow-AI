@@ -11,8 +11,6 @@
     "In a post-apocalyptic wasteland",
     "In a haunted mansion",
     "In a snowy landscape",
-    "In a carnival",
-    "In a circus",
     "In a concert hall",
     "In a library",
     "In a museum",
@@ -49,7 +47,8 @@
     "A farmer",
     "A doctor",
     "A teacher",
-    "A businessperson"
+    "A businessperson",
+    "A Greek God"
   ],
   "actions": [
     "Flying",
@@ -103,7 +102,11 @@
     "Ink drawing",
     "Futuristic",
     "Manga",
-    "Pixel art"
+    "Pixel art",
+    "Cyber Punk",
+    "Disney",
+    "Pixar",
+    "Anime"
   ],
   "objects": [
     "A red apple",

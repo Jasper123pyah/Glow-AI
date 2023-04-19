@@ -1,5 +1,5 @@
 import CameraStep from "./CameraStep.jsx";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import options from "../../options.json";
 import {getPrompt, handleImageRequest} from "./ImageRequest.js";
 import {CircleLoader} from "react-spinners";
@@ -7,8 +7,7 @@ import io from 'socket.io-client';
 
 
 const ImageCreation = () => {
-    const socket = io('http://localhost:5173');
-
+    const socket = io('http://localhost:8000');
 
     // State for processing
     const [loading, setLoading] = useState(false);
@@ -100,8 +99,9 @@ const ImageCreation = () => {
         <div className={'container'}>
             {
                 image ? <div className={'result'}>
-                    <br/>
-                    {<img className={'image'} src={image} alt={'image'}/>}
+                    <h1>
+                        Look at the screen!
+                    </h1>
                     <button onClick={handleReset}>
                         Reset
                     </button>
